@@ -53,10 +53,17 @@ function onWssContextFactory() {
                 .catch(function (err) { console.error(err);});
 
             process.on('SIGINT', function () {
-                console.log('Stopping WebSocket Server...');
-                wss.stop();
-                messenger.stop();
-                waterline.stop();
+                Promise.all([messenger.stop(), waterline.stop()])
+                .then(function() {
+                    wss.stop();
+                    console.log('Stopping WebSocket Server...');
+                })
+                .catch(function(error) {
+                    logger.critical('Server Shutdown Error.', { error: error });
+                    process.nextTick(function() {
+                        process.exit(1);
+                    });
+                });
             });
 
             return this;
