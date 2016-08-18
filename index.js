@@ -46,8 +46,11 @@ function onWssContextFactory() {
             Promise.all([messenger.start(), waterline.start()])
                 .then(function () {
                     console.log('Messenger and Waterline Services started...');
-                    wss.start(function () {
-                        console.log('WebSocket Server started...');
+                    wss.start(function (error) {
+                        console.log('RackHD WebSocketServer started...');
+                        if (error) {
+                            console.error(error);
+                        }
                     });
                 })
                 .catch(function (err) { console.error(err);});
@@ -56,7 +59,7 @@ function onWssContextFactory() {
                 Promise.all([messenger.stop(), waterline.stop()])
                 .then(function() {
                     wss.stop();
-                    console.log('Stopping WebSocket Server...');
+                    console.log('Stopping WebSocketServer...');
                 })
                 .catch(function(error) {
                     logger.critical('Server Shutdown Error.', { error: error });

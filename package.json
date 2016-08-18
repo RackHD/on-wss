@@ -13,6 +13,8 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "cors": "^2.7.1",
+    "express": "^4.14.0",
     "lodash.flattendeep": "^4.2.0",
     "on-core": "git+https://github.com/RackHD/on-core.git",
     "ws": "^1.1.0"
