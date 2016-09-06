@@ -1,0 +1,10 @@
+# Copyright 2016, EMC, Inc.
+
+FROM rackhd/on-wss
+
+RUN rm ./node_modules/on-core \
+  && npm install
+
+VOLUME ["/RackHD/on-wss/spec"] # -v "on-wss/spec:/RackHD/on-wss/spec"
+
+CMD [ "npm", "test" ]

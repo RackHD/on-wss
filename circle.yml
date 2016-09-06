@@ -1,0 +1,33 @@
+machine:
+  node:
+    version: 6.2.2
+  services:
+    - docker
+    - rabbitmq-server
+dependencies:
+  cache_directories:
+    - "~/rackhd"
+  override:
+    - if [[ -e ~/rackhd/on-wss.tar ]]; then docker load -i ~/rackhd/on-wss.tar; fi
+    - if [[ -e ~/rackhd/on-wss-test.tar ]]; then docker load -i ~/rackhd/on-wss-test.tar; fi
+    - docker build -t rackhd/on-wss .
+    - docker build -t on-wss-test -f Dockerfile-test .
+    - mkdir -p ~/rackhd
+    - docker save rackhd/on-wss > ~/rackhd/on-wss.tar
+    - docker save on-wss-test > ~/rackhd/on-wss-test.tar
+    - docker images
+test:
+  override:
+    - docker run --rm --name wss-test --net="host" -v "${PWD}/spec:/RackHD/on-wss/spec" on-wss-test
+    - mongo rackhd --eval "db.dropDatabase()"
+    - docker run -d --name wss --net="host" rackhd/on-wss
+    - docker ps -a
+    - sleep 60
+    - docker stop $(docker ps -q)
+    - docker logs wss
+# deployment:
+#   hub:
+#     branch: master
+#     commands:
+#       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+#       - docker push rackhd/on-wss:stable
