@@ -1,0 +1,11 @@
+Source: on-wss
+Section: utilties
+Priority: optional
+Maintainer: Joe Heck <joseph.heck@emc.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+
+Package: on-wss
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, nodejs (>= 4.4.5-1nodesource1~), rabbitmq-server, mongodb
+Description: RackHD wss
