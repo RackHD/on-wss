@@ -1,0 +1,6 @@
+on-wss (2.18.0) UNRELEASED; urgency=low
+
+  * Initial release
+  * release 2.18.0
+
+ -- rackhd <rackhd@emc.com>  Mon, 07 Aug 2017 04:26:05 -0600

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Copyright 2016, DELL EMC, Inc.
+
+set -e
+
+SERVICE="on-wss"
+
+enable_services(){
+    if [ -f /etc/default/${SERVICE} ];then
+        echo "${SERVICE} is enabled"
+    else
+        touch /etc/default/${SERVICE}
+    fi
+}
+
+enable_services
+
